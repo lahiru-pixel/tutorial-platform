@@ -65,8 +65,8 @@ export default function WatchPage() {
               allowFullScreen
             ></iframe>
             {/* Invisible shields to block clicks on YouTube branding */}
-            <div className="absolute top-0 left-0 w-full h-16 bg-transparent z-10"></div>
-            <div className="absolute bottom-0 right-0 w-24 h-16 bg-transparent z-10"></div>
+            <div className="absolute top-0 left-0 w-full h-24 bg-transparent z-10" title="Protected Video"></div>
+            <div className="absolute bottom-0 right-0 w-64 h-24 bg-transparent z-10" title="Protected Video"></div>
           </>
         ) : (
           <div className="w-full h-full flex items-center justify-center text-gray-500">
