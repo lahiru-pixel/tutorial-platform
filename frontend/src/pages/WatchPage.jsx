@@ -69,19 +69,19 @@ export default function WatchPage() {
             <iframe
               width="100%"
               height="100%"
-              src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&fs=0`}
+              src={`https://www.youtube-nocookie.com/embed/${videoId}?rel=0&modestbranding=1&fs=0`}
               title={video.title}
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             ></iframe>
             {/* Invisible shields to block clicks on YouTube branding */}
-            <div className="absolute top-0 left-0 w-full h-24 bg-transparent z-10" title="Protected Video"></div>
-            <div className="absolute bottom-0 right-0 w-64 h-24 bg-transparent z-10" title="Protected Video"></div>
+            <div className="absolute top-0 left-0 w-full h-12 md:h-24 bg-transparent z-10" title="Protected Video"></div>
+            <div className="absolute bottom-0 right-0 w-32 md:w-64 h-12 md:h-24 bg-transparent z-10" title="Protected Video"></div>
             
             {/* Custom Fullscreen Button */}
             <button 
               onClick={toggleFullScreen}
-              className="absolute bottom-4 right-4 z-20 bg-black/60 hover:bg-black/90 text-white p-2 rounded-lg backdrop-blur-sm transition flex items-center gap-2 text-sm font-medium"
+              className="absolute bottom-2 right-2 md:bottom-4 md:right-4 z-20 bg-black/60 hover:bg-black/90 text-white p-2 rounded-lg backdrop-blur-sm transition flex items-center gap-2 text-sm font-medium"
             >
               <Maximize className="w-4 h-4" />
             </button>
