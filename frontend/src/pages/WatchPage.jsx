@@ -52,17 +52,22 @@ export default function WatchPage() {
         <ArrowLeft className="w-4 h-4" /> Back to Course
       </button>
       
-      <div className="bg-black rounded-2xl overflow-hidden shadow-2xl aspect-video w-full border border-gray-800">
+      <div className="relative bg-black rounded-2xl overflow-hidden shadow-2xl aspect-video w-full border border-gray-800">
         {videoId ? (
-          <iframe
-            width="100%"
-            height="100%"
-            src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1`}
-            title={video.title}
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
+          <>
+            <iframe
+              width="100%"
+              height="100%"
+              src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1`}
+              title={video.title}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+            {/* Invisible shields to block clicks on YouTube branding */}
+            <div className="absolute top-0 left-0 w-full h-16 bg-transparent z-10"></div>
+            <div className="absolute bottom-0 right-0 w-24 h-16 bg-transparent z-10"></div>
+          </>
         ) : (
           <div className="w-full h-full flex items-center justify-center text-gray-500">
             Invalid YouTube URL
