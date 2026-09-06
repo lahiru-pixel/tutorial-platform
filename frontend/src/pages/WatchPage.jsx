@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../services/api';
-import { ArrowLeft, AlertCircle } from 'lucide-react';
+import { ArrowLeft, AlertCircle, Maximize } from 'lucide-react';
 
 export default function WatchPage() {
   const { id } = useParams();
@@ -9,6 +9,17 @@ export default function WatchPage() {
   const [video, setVideo] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const containerRef = useRef(null);
+
+  const toggleFullScreen = () => {
+    if (!document.fullscreenElement) {
+      containerRef.current?.requestFullscreen().catch(err => {
+        console.error(`Error attempting to enable full-screen mode: ${err.message}`);
+      });
+    } else {
+      document.exitFullscreen();
+    }
+  };
 
   useEffect(() => {
     api.get(`/api/videos/${id}/watch`)
@@ -52,17 +63,29 @@ export default function WatchPage() {
         <ArrowLeft className="w-4 h-4" /> Back to Course
       </button>
       
-      <div className="bg-black rounded-2xl overflow-hidden shadow-2xl aspect-video w-full border border-gray-800">
+      <div ref={containerRef} className="relative bg-black rounded-2xl overflow-hidden shadow-2xl aspect-video w-full border border-gray-800">
         {videoId ? (
-          <iframe
-            width="100%"
-            height="100%"
-            src={`https://www.youtube-nocookie.com/embed/${videoId}?rel=0&modestbranding=1`}
-            title={video.title}
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
+          <>
+            <iframe
+              width="100%"
+              height="100%"
+              src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&fs=0`}
+              title={video.title}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            ></iframe>
+            {/* Invisible shields to block clicks on YouTube branding */}
+            <div className="absolute top-0 left-0 w-full h-12 md:h-24 bg-transparent z-10" title="Protected Video"></div>
+            <div className="absolute bottom-0 right-0 w-32 md:w-64 h-12 md:h-24 bg-transparent z-10" title="Protected Video"></div>
+            
+            {/* Custom Fullscreen Button */}
+            <button 
+              onClick={toggleFullScreen}
+              className="absolute bottom-2 right-2 md:bottom-4 md:right-4 z-20 bg-black/60 hover:bg-black/90 text-white p-2 rounded-lg backdrop-blur-sm transition flex items-center gap-2 text-sm font-medium"
+            >
+              <Maximize className="w-4 h-4" />
+            </button>
+          </>
         ) : (
           <div className="w-full h-full flex items-center justify-center text-gray-500">
             Invalid YouTube URL
