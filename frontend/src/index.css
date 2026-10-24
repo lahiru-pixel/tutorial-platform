@@ -1,7 +1,42 @@
 @import "tailwindcss";
 
+@theme {
+  --color-primary: #E30012;
+  --color-primary-hover: #BD0010;
+  --color-secondary: #24143E;
+  --color-canvas: #F8F6FA;
+  --color-surface: #FFFFFF;
+  --color-surface-muted: #F0EBF5;
+  --color-line: #DED6E8;
+  --color-line-strong: #B9ABC9;
+  --color-ink: #352B43;
+  --color-muted: #6D617B;
+}
+
 @layer base {
   body {
-    @apply bg-gray-900 text-gray-100;
+    @apply bg-canvas text-ink;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-secondary;
+  }
+
+  :where(a, button, input, select, textarea):focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+  }
+
+  input[type="checkbox"] {
+    accent-color: var(--color-primary);
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+  }
+
+  ::selection {
+    @apply bg-primary text-white;
   }
 }

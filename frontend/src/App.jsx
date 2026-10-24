@@ -19,7 +19,7 @@ export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <div className="min-h-screen bg-gray-900 text-gray-100 flex flex-col font-sans">
+        <div className="min-h-screen bg-canvas text-ink flex flex-col font-sans">
           <Navbar />
           <main className="flex-1 flex flex-col">
             <Routes>
@@ -40,6 +40,12 @@ export default function App() {
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </main>
+          <footer className="bg-secondary text-white px-6 py-5 border-t border-white/10">
+            <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-2 text-sm">
+              <p className="font-semibold">eZy Account with JB</p>
+              <p className="text-white/70">&copy; {new Date().getFullYear()} eZy Account with JB</p>
+            </div>
+          </footer>
         </div>
       </BrowserRouter>
     </AuthProvider>

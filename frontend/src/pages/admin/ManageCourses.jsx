@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../services/api';
+import CourseStudents from '../../components/CourseStudents';
 import { Users, DollarSign, BookOpen, PlayCircle, PlusCircle, Trash2, Edit2 } from 'lucide-react';
 
 export default function ManageCourses() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [studentCourse, setStudentCourse] = useState(null);
   
   // Form state
   const [isEditing, setIsEditing] = useState(false);
@@ -74,25 +76,25 @@ export default function ManageCourses() {
     setIsPublished(false);
   };
 
-  if (loading) return <div className="p-8 text-center text-gray-400">Loading...</div>;
+  if (loading) return <div className="p-8 text-center text-muted">Loading...</div>;
 
   return (
-    <div className="p-8 max-w-6xl mx-auto w-full flex flex-col md:flex-row gap-8">
+    <div className="p-4 sm:p-8 max-w-6xl mx-auto w-full flex flex-col md:flex-row gap-8">
       {/* Sidebar */}
-      <div className="w-full md:w-64 space-y-2">
-        <div className="bg-gray-800 rounded-xl p-4 border border-gray-700">
-          <h3 className="font-bold text-gray-400 uppercase text-xs tracking-wider mb-4">Admin Menu</h3>
+      <div className="w-full md:w-64 shrink-0 space-y-2">
+        <div className="bg-surface rounded-xl p-4 border border-line">
+          <h3 className="font-bold text-secondary uppercase text-xs tracking-wider mb-4">Admin Menu</h3>
           <nav className="space-y-1">
-            <Link to="/admin" className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-700 transition">
+            <Link to="/admin" className="flex items-center gap-3 px-3 py-2 rounded-lg text-ink hover:bg-surface-muted transition">
               <DollarSign className="w-5 h-5" /> Dashboard
             </Link>
-            <Link to="/admin/students" className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-700 transition">
+            <Link to="/admin/students" className="flex items-center gap-3 px-3 py-2 rounded-lg text-ink hover:bg-surface-muted transition">
               <Users className="w-5 h-5" /> Manage Students
             </Link>
-            <Link to="/admin/courses" className="flex items-center gap-3 px-3 py-2 rounded-lg bg-indigo-600 text-white transition">
+            <Link to="/admin/courses" className="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary text-white transition">
               <BookOpen className="w-5 h-5" /> Manage Courses
             </Link>
-            <Link to="/admin/videos" className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-700 transition">
+            <Link to="/admin/videos" className="flex items-center gap-3 px-3 py-2 rounded-lg text-ink hover:bg-surface-muted transition">
               <PlayCircle className="w-5 h-5" /> Manage Videos
             </Link>
           </nav>
@@ -100,48 +102,51 @@ export default function ManageCourses() {
       </div>
       
       {/* Content */}
-      <div className="flex-1 space-y-8">
+      <div className="flex-1 min-w-0 space-y-8">
+        {studentCourse ? (
+          <CourseStudents key={studentCourse.id} course={studentCourse} onBack={() => setStudentCourse(null)} />
+        ) : (
         <div>
-          <h1 className="text-3xl font-bold mb-6 text-white">Manage Courses</h1>
+          <h1 className="text-3xl font-bold mb-6 text-secondary">Manage Courses</h1>
           
-          <div className="bg-gray-800 rounded-xl p-6 border border-gray-700 mb-8">
-            <h3 className="text-lg font-semibold mb-4 text-white">{isEditing ? 'Edit Course' : 'Create New Course'}</h3>
+          <div className="bg-surface rounded-xl p-6 border border-line mb-8">
+            <h3 className="text-lg font-semibold mb-4 text-secondary">{isEditing ? 'Edit Course' : 'Create New Course'}</h3>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-1">Title</label>
+                <label className="block text-sm font-medium text-muted mb-1">Title</label>
                 <input 
                   type="text" required value={title} onChange={e => setTitle(e.target.value)}
-                  className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-white outline-none focus:border-indigo-500"
+                  className="w-full bg-canvas border border-line rounded-lg px-4 py-2 text-ink outline-none focus:border-primary"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-1">Description</label>
+                <label className="block text-sm font-medium text-muted mb-1">Description</label>
                 <textarea 
                   rows="3" value={description} onChange={e => setDescription(e.target.value)}
-                  className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-white outline-none focus:border-indigo-500"
+                  className="w-full bg-canvas border border-line rounded-lg px-4 py-2 text-ink outline-none focus:border-primary"
                 ></textarea>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-1">Thumbnail URL</label>
+                <label className="block text-sm font-medium text-muted mb-1">Thumbnail URL</label>
                 <input 
                   type="url" value={thumbnailUrl} onChange={e => setThumbnailUrl(e.target.value)}
-                  className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-white outline-none focus:border-indigo-500"
+                  className="w-full bg-canvas border border-line rounded-lg px-4 py-2 text-ink outline-none focus:border-primary"
                 />
               </div>
               <div className="flex items-center gap-2">
                 <input 
                   type="checkbox" id="isPublished" checked={isPublished} onChange={e => setIsPublished(e.target.checked)}
-                  className="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 focus:ring-offset-gray-900 bg-gray-900 border-gray-700"
+                  className="w-4 h-4 rounded text-primary focus:ring-primary focus:ring-offset-canvas bg-canvas border-line"
                 />
-                <label htmlFor="isPublished" className="text-sm font-medium text-gray-300">Publish Course</label>
+                <label htmlFor="isPublished" className="text-sm font-medium text-ink">Publish Course</label>
               </div>
               <div className="flex gap-4 pt-2">
-                <button type="submit" className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition">
+                <button type="submit" className="bg-primary hover:bg-primary-hover text-white px-6 py-2 rounded-lg flex items-center gap-2 transition">
                   {isEditing ? <Edit2 className="w-4 h-4" /> : <PlusCircle className="w-4 h-4" />}
                   {isEditing ? 'Update Course' : 'Create Course'}
                 </button>
                 {isEditing && (
-                  <button type="button" onClick={resetForm} className="bg-gray-700 hover:bg-gray-600 text-white px-6 py-2 rounded-lg transition">
+                  <button type="button" onClick={resetForm} className="bg-surface-muted hover:bg-line text-ink px-6 py-2 rounded-lg transition">
                     Cancel
                   </button>
                 )}
@@ -151,30 +156,33 @@ export default function ManageCourses() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {courses.map(course => (
-              <div key={course.id} className="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 flex flex-col">
-                <div className="h-40 bg-gray-700 relative">
+              <div key={course.id} className="bg-surface rounded-xl overflow-hidden border border-line flex flex-col">
+                <div className="h-40 bg-surface-muted relative">
                   {course.thumbnail_url ? (
                     <img src={course.thumbnail_url} alt={course.title} className="w-full h-full object-cover" />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-gray-500">No Image</div>
+                    <div className="w-full h-full flex items-center justify-center text-muted">No Image</div>
                   )}
                   <div className="absolute top-2 right-2">
                     {course.is_published ? (
-                      <span className="bg-emerald-500 text-white text-xs px-2 py-1 rounded shadow">Published</span>
+                      <span className="bg-emerald-700 text-white text-xs px-2 py-1 rounded shadow">Published</span>
                     ) : (
-                      <span className="bg-amber-500 text-white text-xs px-2 py-1 rounded shadow">Draft</span>
+                      <span className="bg-amber-100 text-amber-900 text-xs px-2 py-1 rounded shadow">Draft</span>
                     )}
                   </div>
                 </div>
                 <div className="p-5 flex-1 flex flex-col">
-                  <h3 className="text-lg font-bold text-white mb-2">{course.title}</h3>
-                  <p className="text-gray-400 text-sm line-clamp-2 flex-1 mb-4">{course.description}</p>
+                  <h3 className="text-lg font-bold text-secondary mb-2">{course.title}</h3>
+                  <p className="text-muted text-sm line-clamp-2 flex-1 mb-4">{course.description}</p>
                   
-                  <div className="flex gap-2 justify-end border-t border-gray-700 pt-4 mt-auto">
-                    <button onClick={() => editCourse(course)} className="p-2 text-indigo-400 hover:bg-indigo-500/10 rounded transition">
+                  <div className="flex flex-wrap gap-2 justify-end border-t border-line pt-4 mt-auto">
+                    <button onClick={() => { setStudentCourse(course); window.scrollTo({ top: 0, behavior: 'smooth' }); }} aria-label={`Manage students in ${course.title}`} className="mr-auto flex items-center gap-2 px-3 py-2 bg-primary hover:bg-primary-hover text-white text-sm font-medium rounded-lg transition">
+                      <Users className="w-4 h-4" /> Manage Students
+                    </button>
+                    <button onClick={() => editCourse(course)} aria-label={`Edit ${course.title}`} className="p-2 text-primary hover:bg-primary/10 rounded transition">
                       <Edit2 className="w-5 h-5" />
                     </button>
-                    <button onClick={() => deleteCourse(course.id)} className="p-2 text-red-400 hover:bg-red-500/10 rounded transition">
+                    <button onClick={() => deleteCourse(course.id)} aria-label={`Delete ${course.title}`} className="p-2 text-primary hover:bg-primary/10 rounded transition">
                       <Trash2 className="w-5 h-5" />
                     </button>
                   </div>
@@ -182,12 +190,13 @@ export default function ManageCourses() {
               </div>
             ))}
             {courses.length === 0 && (
-              <div className="col-span-full p-8 text-center text-gray-500 bg-gray-800 rounded-xl border border-gray-700 border-dashed">
+              <div className="col-span-full p-8 text-center text-muted bg-surface rounded-xl border border-line border-dashed">
                 No courses created yet.
               </div>
             )}
           </div>
         </div>
+        )}
       </div>
     </div>
   );
