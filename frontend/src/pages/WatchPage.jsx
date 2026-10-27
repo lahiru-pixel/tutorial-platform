@@ -74,8 +74,9 @@ export default function WatchPage() {
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             ></iframe>
-            {/* Invisible shields to block clicks on YouTube branding */}
+            {/* Invisible shields to block clicks on YouTube branding and sharing */}
             <div className="absolute top-0 left-0 w-full h-12 md:h-24 bg-transparent z-10" title="Protected Video"></div>
+            <div className="absolute bottom-0 left-0 w-32 md:w-40 h-12 md:h-24 bg-transparent z-10" title="Protected Video"></div>
             <div className="absolute bottom-0 right-0 w-32 md:w-64 h-12 md:h-24 bg-transparent z-10" title="Protected Video"></div>
             
             {/* Custom Fullscreen Button */}
