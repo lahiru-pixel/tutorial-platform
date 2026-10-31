@@ -25,7 +25,7 @@ export default function Register() {
     if (error) {
       setError(error.message);
     } else {
-      navigate('/');
+      navigate('/my-courses');
     }
     setLoading(false);
   };

@@ -1,10 +1,12 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminRoute from './components/AdminRoute';
 
 import Login from './pages/Login';
+import HomePage from './pages/HomePage';
 import Register from './pages/Register';
 import Dashboard from './pages/StudentDashboard';
 import CoursePage from './pages/CoursePage';
@@ -20,14 +22,16 @@ export default function App() {
     <AuthProvider>
       <BrowserRouter>
         <div className="min-h-screen bg-canvas text-ink flex flex-col font-sans">
+          <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:bg-white focus:text-secondary focus:px-4 focus:py-3 focus:rounded-lg">Skip to content</a>
           <Navbar />
-          <main className="flex-1 flex flex-col">
+          <main id="main-content" tabIndex={-1} className="flex-1 flex flex-col">
             <Routes>
+              <Route path="/" element={<HomePage />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               
               {/* Student Routes */}
-              <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+              <Route path="/my-courses" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
               <Route path="/courses/:id" element={<ProtectedRoute><CoursePage /></ProtectedRoute>} />
               <Route path="/videos/:id/watch" element={<ProtectedRoute><WatchPage /></ProtectedRoute>} />
               
@@ -40,12 +44,7 @@ export default function App() {
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </main>
-          <footer className="bg-secondary text-white px-6 py-5 border-t border-white/10">
-            <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-2 text-sm">
-              <p className="font-semibold">eZy Account with JB</p>
-              <p className="text-white/70">&copy; {new Date().getFullYear()} eZy Account with JB</p>
-            </div>
-          </footer>
+          <Footer />
         </div>
       </BrowserRouter>
     </AuthProvider>
