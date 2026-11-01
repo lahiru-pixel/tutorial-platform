@@ -97,7 +97,7 @@ export default function HomePage() {
       <section className="home-hero home-container" aria-labelledby="home-title">
         <div className="home-hero-copy">
           <p className="home-eyebrow"><span className="home-dot" /> Accounting education · Sri Lanka</p>
-          <h1 id="home-title">Make sense of<br />accounting.<br /><em>Build your future.</em></h1>
+          <h1 id="home-title">සරල ඇරඹුමක්<br></br><em>ගැඹුරු නිමාවක්</em></h1>
           <p className="home-intro">Learn with <strong>Jayaruwan Bandara.</strong> Bring your accounting studies into focus with online video courses and a teacher whose experience spans school, professional and government examinations.</p>
           <div className="home-actions">
             <a href="#courses" className="home-button home-button-primary">Explore courses <ArrowUpRight size={19} aria-hidden="true" /></a>
